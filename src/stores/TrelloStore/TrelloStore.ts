@@ -1,5 +1,5 @@
 import { BoardModel } from "@/models/trello/BoardModel";
-import { TaskModel } from "@/models/trello/taskModel";
+import { TaskModel } from "@/models/trello/TaskModel";
 import { makeAutoObservable } from "mobx";
 import { v4 } from 'uuid'
 
