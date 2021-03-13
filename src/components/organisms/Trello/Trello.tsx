@@ -3,6 +3,7 @@ import { observer } from "mobx-react";
 import styled from 'styled-components';
 import { useStores } from '@/stores';
 import { TrelloBoard, RootWrapper as TrelloBoardRootWrapper } from '@/components/molecules/TrelloBoard/TrelloBoard';
+import { TrelloNewBoard, RootWrapper as TrelloNewBoardRootWrapper } from '@/components/molecules/TrelloNewBoard/TrelloNewBoard';
 import { styleMixins } from '@/styles/mixins/styleMixins';
 
 const RootWrapper = styled.div`
@@ -18,7 +19,8 @@ const TrelloBoardWrapper = styled.div`
   overflow-x: scroll;
 
   margin: -10px;
-  & > ${TrelloBoardRootWrapper} {
+  & > ${TrelloBoardRootWrapper},
+  & > ${TrelloNewBoardRootWrapper} {
     margin: 10px;
   }
 `
@@ -37,9 +39,13 @@ export const Trello = observer(function Trello({
       <TrelloBoardWrapper>
         {trelloStore.boards.map(board => (
           <TrelloBoard
+            key={board.id}
             board={board}
           />
         ))}
+        <TrelloNewBoard
+          trelloStore={trelloStore}
+        />
       </TrelloBoardWrapper>
     </RootWrapper>
   )

@@ -56,4 +56,12 @@ export class BoardModel {
   get nextBoard() {
     return this.trelloStore.boards[this.trelloIndex + 1]
   }
+
+  get isFirstBoard() {
+    return this.prevBoard === undefined
+  }
+
+  get isLastBoard() {
+    return this.trelloStore.boards.length - 1 === this.trelloIndex
+  }
 }

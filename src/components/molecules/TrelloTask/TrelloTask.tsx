@@ -40,18 +40,15 @@ export const TrelloTask = observer(function TrelloTask({
   task
 }: ITrelloTaskProps) {
   const [isEditable, setIsEditable] = React.useState(false)
-  const isFirstBoard = task.board?.prevBoard === undefined
-  const isLastBoard = task.board?.nextBoard === undefined
 
   const handleMovePrev = () => {
-    if (!isFirstBoard && task.board?.prevBoard) {
+    if (!task.board?.isFirstBoard && task.board?.prevBoard) {
       task.changeBoard(task.board?.prevBoard.id)
     }
   }
 
   const handleMoveNext = () => {
-    console.log(task.board?.nextBoard)
-    if (!isLastBoard && task.board?.nextBoard) {
+    if (!task.board?.isLastBoard && task.board?.nextBoard) {
       task.changeBoard(task.board?.nextBoard.id)
     }
   }
@@ -89,7 +86,7 @@ export const TrelloTask = observer(function TrelloTask({
         </>
       ) : (
         <>
-          {!isFirstBoard ? (
+          {!task.board?.isFirstBoard ? (
             <BoardChangeArrow
               onClick={handleMovePrev}
             >
@@ -101,7 +98,7 @@ export const TrelloTask = observer(function TrelloTask({
           >
             {task.title}
           </TaskTitle>
-          {!isLastBoard ? (
+          {!task.board?.isLastBoard ? (
             <BoardChangeArrow
               onClick={handleMoveNext}
             >
