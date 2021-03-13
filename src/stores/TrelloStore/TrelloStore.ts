@@ -37,10 +37,58 @@ export class TrelloStore {
 
   initial() {
     if (this.boards.length === 0) {
-      this.addBoard({ title: 'A' })
-      this.addBoard({ title: 'B' })
-      this.addBoard({ title: 'C' })
-      this.addBoard({ title: 'D' })
+      const aBoard = this.addBoard({ title: 'A' })
+      const bBoard = this.addBoard({ title: 'B' })
+      const cBoard = this.addBoard({ title: 'C' })
+      const dBoard = this.addBoard({ title: 'D' })
+
+      // aBoard
+      this.addTask({
+        title: 'Item 1',
+        boardId: aBoard.id
+      })
+      this.addTask({
+        title: 'Item 2',
+        boardId: aBoard.id
+      })
+      this.addTask({
+        title: 'Item 3',
+        boardId: aBoard.id
+      })
+      this.addTask({
+        title: 'Item 4',
+        boardId: aBoard.id
+      })
+
+      // bBoard
+      this.addTask({
+        title: 'Item 1',
+        boardId: bBoard.id
+      })
+      this.addTask({
+        title: 'Item 2',
+        boardId: bBoard.id
+      })
+
+      // cBoard
+      this.addTask({
+        title: 'Item 1',
+        boardId: cBoard.id
+      })
+      this.addTask({
+        title: 'Item 2',
+        boardId: cBoard.id
+      })
+      this.addTask({
+        title: 'Item 3',
+        boardId: cBoard.id
+      })
+
+      // dBoard
+      this.addTask({
+        title: 'Item 1',
+        boardId: dBoard.id
+      })
     }
   }
 
@@ -51,12 +99,14 @@ export class TrelloStore {
     title: Task['title']
     boardId: Task['boardId']
   }) {
-    this.tasks.push(
-      new TaskModel({
-        title,
-        boardId
-      }, this)
-    )
+    const newTask = new TaskModel({
+      title,
+      boardId
+    }, this)
+
+    this.tasks.push(newTask)
+
+    return newTask
   }
 
   addBoard({
@@ -64,11 +114,13 @@ export class TrelloStore {
   }: {
     title: Board['title']
   }) {
-    this.boards.push(
-      new BoardModel({
-        title,
-      }, this)
-    )
+    const newBoard = new BoardModel({
+      title,
+    }, this)
+
+    this.boards.push(newBoard)
+
+    return newBoard
   }
 
   getBoardByIndex(index: number) {
@@ -80,11 +132,20 @@ export class TrelloStore {
   }
 
   get displayBoards() {
-    return this.boards.filter(board => !board.isDeleted)
+    return this.boards
+      .filter(board => !board.isDeleted)
+      .sort((a, b) => {
+        return +new Date(a.updatedAt) > +new Date(b.updatedAt) ? 1 : -1
+      })
   }
 
   get displayTasks() {
-    return this.tasks.filter(task => !task.isDeleted)
+    return this.tasks
+      .filter(task => !task.isDeleted)
+      .sort((a, b) => {
+        console.log(+new Date(a.updatedAt))
+        return +new Date(a.updatedAt) > +new Date(b.updatedAt) ? 1 : -1
+      })
   }
 
   hydrate() {

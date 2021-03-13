@@ -37,6 +37,7 @@ export class TaskModel {
 
   changeBoard(boardId: Task['boardId']) {
     this.boardId = boardId
+    this.updatedAt = getNowDateAt()
   }
 
   hydrate(data: Task) {
