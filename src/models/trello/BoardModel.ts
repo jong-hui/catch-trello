@@ -33,6 +33,14 @@ export class BoardModel {
     this.title = title
   }
 
+  hydrate(data: Board) {
+    this.id = data.id
+    this.title = data.title
+    this.isDeleted = data.isDeleted
+    this.createdAt = data.createdAt
+    this.updatedAt = data.updatedAt
+  }
+
   get tasks() {
     return this.trelloStore.tasks.filter(task => task.boardId === this.id)
   }

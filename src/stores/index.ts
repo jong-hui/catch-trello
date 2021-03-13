@@ -8,7 +8,7 @@ configure({ enforceActions: "never" })
 
 const Stores = {
   appStore: new AppStore(),
-  trelloStore: new TrelloStore()
+  trelloStore: new TrelloStore('trelloStore')
 }
 
 function useStores () {

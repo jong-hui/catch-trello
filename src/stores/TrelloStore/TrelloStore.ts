@@ -1,18 +1,38 @@
+import { isServer } from "@/helpers/utils";
 import { BoardModel } from "@/models/trello/BoardModel";
 import { TaskModel } from "@/models/trello/TaskModel";
-import { makeAutoObservable } from "mobx";
-import { v4 } from 'uuid'
+import { autorun, makeAutoObservable, toJS } from "mobx";
 
 export class TrelloStore {
+  id: string
   boards: BoardModel[] = []
   tasks: TaskModel[] = []
 
-  constructor() {
+  constructor(id: string) {
+    this.id = id
     this.hydrate()
 
     makeAutoObservable(this)
 
     this.initial()
+
+    const setTrelloId = (data: any) => {
+      data.trelloStore = this.id
+
+      return data
+    }
+
+    if (!isServer()) {
+      autorun(() => {
+        const boards = toJS(this.boards).map(setTrelloId)
+        const tasks = toJS(this.tasks).map(setTrelloId)
+
+        window.localStorage[this.hydrateKey] = JSON.stringify({
+          boards,
+          tasks
+        })
+      })
+    }
   }
 
   initial() {
@@ -54,9 +74,44 @@ export class TrelloStore {
   getBoardByIndex(index: number) {
     return this.boards[index]
   }
+  
+  get hydrateKey() {
+    return `trelloStore-hydrate-${this.id}`
+  }
 
-  // TODO: localeStorage (with autoRun)
   hydrate() {
-    
+    if (
+      isServer() ||
+      window.localStorage[this.hydrateKey] === undefined
+    ) {
+      return
+    }
+
+    const hydrateData = JSON.parse(window.localStorage[this.hydrateKey])
+
+    if (hydrateData.tasks) {
+      this.tasks = hydrateData.tasks.map((task: any) => {
+        const newTask = new TaskModel({
+          title: task.title,
+          boardId: task.boardId
+        }, this)
+
+        newTask.hydrate(task)
+
+        return newTask
+      })      
+    }
+
+    if (hydrateData.boards) {
+      this.boards = hydrateData.boards.map((board: any) => {
+        const newBoard = new BoardModel({
+          title: board.title
+        }, this)
+
+        newBoard.hydrate(board)
+
+        return newBoard
+      })
+    }
   }
 }

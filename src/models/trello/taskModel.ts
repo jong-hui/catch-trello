@@ -39,6 +39,15 @@ export class TaskModel {
     this.boardId = boardId
   }
 
+  hydrate(data: Task) {
+    this.id = data.id
+    this.title = data.title
+    this.boardId = data.boardId
+    this.isDeleted = data.isDeleted
+    this.createdAt = data.createdAt
+    this.updatedAt = data.updatedAt
+  }
+
   get board() {
     return this.trelloStore.boards.find(_board => _board.id === this.boardId)
   }
