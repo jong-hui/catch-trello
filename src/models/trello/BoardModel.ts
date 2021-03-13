@@ -34,6 +34,6 @@ export class BoardModel {
   }
 
   get tasks() {
-    return this.trelloStore.tasks.find(task => task.boardId === this.id)
+    return this.trelloStore.tasks.filter(task => task.boardId === this.id)
   }
 }
