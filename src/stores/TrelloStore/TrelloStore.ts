@@ -143,7 +143,6 @@ export class TrelloStore {
     return this.tasks
       .filter(task => !task.isDeleted)
       .sort((a, b) => {
-        console.log(+new Date(a.updatedAt))
         return +new Date(a.updatedAt) > +new Date(b.updatedAt) ? 1 : -1
       })
   }
