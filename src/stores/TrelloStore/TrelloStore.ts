@@ -35,7 +35,7 @@ export class TrelloStore {
       new TaskModel({
         title,
         boardId
-      })
+      }, this)
     )
   }
 
@@ -49,6 +49,10 @@ export class TrelloStore {
         title,
       }, this)
     )
+  }
+
+  getBoardByIndex(index: number) {
+    return this.boards[index]
   }
 
   // TODO: localeStorage (with autoRun)

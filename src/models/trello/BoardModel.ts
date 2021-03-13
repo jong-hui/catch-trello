@@ -36,4 +36,16 @@ export class BoardModel {
   get tasks() {
     return this.trelloStore.tasks.filter(task => task.boardId === this.id)
   }
+
+  get trelloIndex() {
+    return this.trelloStore.boards.findIndex(board => board.id === this.id)
+  }
+
+  get prevBoard() {
+    return this.trelloStore.boards[this.trelloIndex - 1]
+  }
+
+  get nextBoard() {
+    return this.trelloStore.boards[this.trelloIndex + 1]
+  }
 }
