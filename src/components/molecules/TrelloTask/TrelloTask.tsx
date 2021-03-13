@@ -18,11 +18,16 @@ export const RootWrapper = styled.div`
 
 const BoardChangeArrow = styled.p`
   cursor: pointer;
+  align-self: center;
 `
 
 const TaskTitle = styled.p`
   flex-grow: 1;
   text-align: center;
+  align-self: center;
+  padding: 0 0.5rem;
+  max-width: 100%;
+  word-break: break-all;
 `
 
 export interface ITrelloTaskProps {
@@ -34,7 +39,7 @@ export const TrelloTask = observer(function TrelloTask({
   children,
   task
 }: ITrelloTaskProps) {
-  const {} = useStores()
+  const [isEditable, setIsEditable] = React.useState(false)
   const isFirstBoard = task.board?.prevBoard === undefined
   const isLastBoard = task.board?.nextBoard === undefined
 
@@ -50,52 +55,61 @@ export const TrelloTask = observer(function TrelloTask({
       task.changeBoard(task.board?.nextBoard.id)
     }
   }
-  // const isFirstBoard = task.board?.trelloIndex === 0
-  // const isLastBoard = task.board?.trelloIndex === (task.trelloStore.boards.length -1)
 
-  // const handleMoveLeft = () => {
-  //   const boardIndex = task.board?.trelloIndex
-    
-  //   if (!isFirstBoard && boardIndex !== undefined) {
-  //     const leftBoard = task.trelloStore.getBoardByIndex(boardIndex - 1)
+  const toggleEditable = () => {
+    setIsEditable(_isEditable => !_isEditable)
+  }
 
-  //     if (leftBoard) {
-  //       task.changeBoard(leftBoard.id)
-  //     }
-  //   }
-  // }
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement>): void => {
+    task.changeTitle(e.target.value)
+    setIsEditable(false)
+  }
 
-  // const handleMoveRight = () => {
-  //   const boardIndex = task.board?.trelloIndex
+  const handleKeyUp = (e: React.KeyboardEvent<HTMLInputElement>): void => {
+    const value = (e.target as HTMLInputElement).value
 
-  //   if (!isLastBoard && boardIndex !== undefined) {
-  //     const rightBoard = task.trelloStore.getBoardByIndex(boardIndex + 1)
-
-  //     if (rightBoard) {
-  //       task.changeBoard(rightBoard.id)
-  //     }
-  //   }
-  // }
+    // Enter
+    if (e.keyCode === 13) {
+      task.changeTitle(value)
+      setIsEditable(false)
+    }
+  }
 
   return (
     <RootWrapper>
-      {!isFirstBoard ? (
-        <BoardChangeArrow
-          onClick={handleMovePrev}
-        >
-          &lt;
-        </BoardChangeArrow>
-      ) : null}
-      <TaskTitle>
-        {task.title}
-      </TaskTitle>
-      {!isLastBoard ? (
-        <BoardChangeArrow
-          onClick={handleMoveNext}
-        >
-          &gt;
-        </BoardChangeArrow>
-      ) : null}
+      {isEditable ? (
+        <>
+          <input
+            type="text"
+            autoFocus
+            defaultValue={task.title}
+            onBlur={handleBlur}
+            onKeyUp={handleKeyUp}
+          />
+        </>
+      ) : (
+        <>
+          {!isFirstBoard ? (
+            <BoardChangeArrow
+              onClick={handleMovePrev}
+            >
+              &lt;
+            </BoardChangeArrow>
+          ) : null}
+          <TaskTitle
+            onClick={toggleEditable}
+          >
+            {task.title}
+          </TaskTitle>
+          {!isLastBoard ? (
+            <BoardChangeArrow
+              onClick={handleMoveNext}
+            >
+              &gt;
+            </BoardChangeArrow>
+          ) : null}
+        </>
+      )}
     </RootWrapper>
   )
 })
