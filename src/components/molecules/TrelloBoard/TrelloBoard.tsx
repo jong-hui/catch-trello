@@ -11,11 +11,12 @@ import { TrelloNewTask, RootWrapper as TrelloNewTaskRootWrapper } from '../Trell
 export const RootWrapper = styled.div`
   min-width: 220px;
   max-width: 200px;
-  height: 100%;
-  overflow-y: scroll;
+  height: 400px;
   background-color: ${OpenColor.gray[2]};
   border-radius: 5px;
   position: relative;
+
+  ${styleMixins(['flexColumn'])};
 `
 
 const BoardTitle = styled.h3`
@@ -25,9 +26,12 @@ const BoardTitle = styled.h3`
 `
 
 const TaskWrapper = styled.div`
+  overflow-y: scroll;
+  overflow-x: hidden;
   width: 100%;
-  height: auto;
+  height: 100%;
   padding: 1rem 1rem;
+  flex-grow: 1;
 
   margin: -5px;
 
@@ -43,7 +47,8 @@ const BoardDeleteButton = styled.button`
   top: 1rem;
   cursor: pointer;
   padding: 0.25rem 0.5rem;
-  border: 1px solid ${OpenColor.gray[4]}
+  border: 1px solid ${OpenColor.gray[4]};
+  background-color: ${OpenColor.gray[2]};
 `
 
 export interface ITrelloBoardProps {

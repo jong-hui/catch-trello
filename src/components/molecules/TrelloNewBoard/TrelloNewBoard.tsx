@@ -11,10 +11,12 @@ import { TrelloStore } from '@/stores/TrelloStore/TrelloStore';
 
 export const RootWrapper = styled.button`
   min-width: 220px;
-  height: 100%;
+  max-width: 220px;
+  height: 400px;
   overflow-y: scroll;
   background-color: ${OpenColor.gray[2]};
   border-radius: 5px;
+  flex-grow: 1;
 
   font-size: 2rem;
   cursor: pointer;

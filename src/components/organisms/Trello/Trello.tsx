@@ -15,7 +15,6 @@ const RootWrapper = styled.div`
 const TrelloBoardWrapper = styled.div`
   ${styleMixins(['flexRow'])};
   width: calc(100% - 80px);
-  height: 400px;
   overflow-x: scroll;
 
   margin: -10px;
