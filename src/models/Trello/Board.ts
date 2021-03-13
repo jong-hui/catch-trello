@@ -1,5 +1,5 @@
 interface Board {
-  id: number
+  id: string
   title: string
   isDeleted: boolean
   createdAt: string

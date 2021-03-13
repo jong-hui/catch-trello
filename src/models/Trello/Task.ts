@@ -1,5 +1,5 @@
 interface Task {
-  id: number
+  id: string
   title: string
   boardId: number
   isDeleted: boolean
