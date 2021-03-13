@@ -37,7 +37,7 @@ export const Trello = observer(function Trello({
   return (
     <RootWrapper>
       <TrelloBoardWrapper>
-        {trelloStore.boards.map(board => (
+        {trelloStore.displayBoard.map(board => (
           <TrelloBoard
             key={board.id}
             board={board}

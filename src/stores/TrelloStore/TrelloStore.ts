@@ -79,6 +79,14 @@ export class TrelloStore {
     return `trelloStore-hydrate-${this.id}`
   }
 
+  get displayBoard() {
+    return this.boards.filter(board => !board.isDeleted)
+  }
+
+  get displayTask() {
+    return this.tasks.filter(board => !board.isDeleted)
+  }
+
   hydrate() {
     if (
       isServer() ||

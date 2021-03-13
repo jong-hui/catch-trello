@@ -10,10 +10,12 @@ import { TrelloNewTask, RootWrapper as TrelloNewTaskRootWrapper } from '../Trell
 
 export const RootWrapper = styled.div`
   min-width: 220px;
+  max-width: 200px;
   height: 100%;
   overflow-y: scroll;
   background-color: ${OpenColor.gray[2]};
   border-radius: 5px;
+  position: relative;
 `
 
 const BoardTitle = styled.h3`
@@ -35,6 +37,15 @@ const TaskWrapper = styled.div`
   }
 `
 
+const BoardDeleteButton = styled.button`
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid ${OpenColor.gray[4]}
+`
+
 export interface ITrelloBoardProps {
   children?: React.ReactNode
   board: BoardModel
@@ -44,6 +55,12 @@ export const TrelloBoard = observer(function TrelloBoard({
   children,
   board
 }: ITrelloBoardProps) {
+
+  const handleDelete = () => {
+    if (window.confirm('Are you sure to delete it?')) {
+      board.delete()
+    }
+  }
 
   return (
     <RootWrapper>
@@ -59,6 +76,11 @@ export const TrelloBoard = observer(function TrelloBoard({
         ))}
         <TrelloNewTask board={board} />
       </TaskWrapper>
+      <BoardDeleteButton
+        onClick={handleDelete}
+      >
+        X
+      </BoardDeleteButton>
     </RootWrapper>
   )
 })

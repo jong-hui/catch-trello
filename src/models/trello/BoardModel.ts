@@ -46,15 +46,17 @@ export class BoardModel {
   }
 
   get trelloIndex() {
-    return this.trelloStore.boards.findIndex(board => board.id === this.id)
+    return this.trelloStore.displayBoard.findIndex(board => {
+      return board.id === this.id
+    })
   }
 
   get prevBoard() {
-    return this.trelloStore.boards[this.trelloIndex - 1]
+    return this.trelloStore.displayBoard[this.trelloIndex - 1]
   }
 
   get nextBoard() {
-    return this.trelloStore.boards[this.trelloIndex + 1]
+    return this.trelloStore.displayBoard[this.trelloIndex + 1]
   }
 
   get isFirstBoard() {
@@ -62,6 +64,6 @@ export class BoardModel {
   }
 
   get isLastBoard() {
-    return this.trelloStore.boards.length - 1 === this.trelloIndex
+    return this.trelloStore.displayBoard.length - 1 === this.trelloIndex
   }
 }
