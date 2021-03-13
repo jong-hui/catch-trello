@@ -29,7 +29,7 @@ export const TrelloNewTask = observer(function TrelloNewTask({
 }: ITrelloNewTaskProps) {
 
   const handleClick = () => {
-    const newTaskTitle = window.prompt()
+    const newTaskTitle = window.prompt('input your task title')
     
     if (newTaskTitle) {
       board.trelloStore.addTask({

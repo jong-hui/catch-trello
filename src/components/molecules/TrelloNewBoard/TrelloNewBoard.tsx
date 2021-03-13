@@ -32,7 +32,7 @@ export const TrelloNewBoard = observer(function TrelloNewBoard({
 }: ITrelloNewBoardProps) {
 
   const handleClick = () => {
-    const newBoardTitle = window.prompt()
+    const newBoardTitle = window.prompt('input your board title')
 
     if (newBoardTitle) {
       trelloStore.addBoard({
